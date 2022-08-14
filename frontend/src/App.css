@@ -16,6 +16,14 @@
   max-width: 90%;
 }
 
+.viewCounter{
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  margin: 2rem;
+  border: 0.2rem solid rgb(0, 0, 0); 
+  padding: 1rem;
+}
 
 .App-header {
   background-color: #282c34;

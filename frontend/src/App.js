@@ -1,10 +1,22 @@
 import "./App.css";
 import TextField from "@mui/material/TextField";
 import { Button } from "@mui/material";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 function App() {
   const [value, setValue] = useState("");
   const [result, setResult] = useState("");
+  const [views, setViews] = useState("loading...");
+
+  useEffect(() => {
+    fetch(
+      "https://mitchellbucketn11099887.s3.ap-southeast-2.amazonaws.com/index.json"
+    )
+      .then((res) => res.json())
+      .then((data) => {
+        setViews(data.counter);
+      });
+  }, []);
+
   const sendQuery = async () => {
     setResult("loading...");
     if (value === "") {
@@ -16,8 +28,13 @@ function App() {
       setResult(data.message);
     }
   };
+
   return (
     <div className="App">
+      <div className="viewCounter">
+        <h3>View Counter</h3>
+        <h4>{views}</h4>
+      </div>
       <img
         src={"https://www.redditinc.com/assets/images/site/reddit-logo.png"}
         className="App-logo"
