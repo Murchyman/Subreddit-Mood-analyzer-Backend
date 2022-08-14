@@ -9,13 +9,14 @@ function App() {
 
   useEffect(() => {
     fetch(
-      "https://mitchellbucketn11099887.s3.ap-southeast-2.amazonaws.com/index.json"
+      "http://localhost:3001/counter"
     )
       .then((res) => res.json())
       .then((data) => {
         setViews(data.counter);
       });
   }, []);
+
 
   const sendQuery = async () => {
     setResult("loading...");

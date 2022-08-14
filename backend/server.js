@@ -27,33 +27,36 @@ var r = new snoowrap({
 
 app.use(cors());
 
-app.get("/counter/:count", (req, res) => {
+app.get("/counter", async (req, res) => {
   const bucketName = "mitchellbucketn11099887";
   const keyName = "index.json";
   const objectType = "application/json"; // type of file
 
+let data = await s3.getObject({
+  Bucket: bucketName,
+  Key: keyName,
+}).promise();
+
+console.log();
+
   const file = {
-    counter: req.params.count,
+    counter: JSON.parse(data.Body.toString()).counter + 1,
   };
 
-  var data = Buffer.from(JSON.stringify(file));
+  var buffer = Buffer.from(JSON.stringify(file));
 
   const uploadedFile = s3
     .upload({
       Bucket: bucketName,
       Key: keyName,
-      Body: data,
+      Body: buffer,
       ContentType: objectType,
     })
     .promise();
 
-  uploadedFile
-    .then((data) => {
-      res.send(data);
+    res.json({
+      counter: JSON.parse(data.Body.toString()).counter + 1,
     })
-    .catch((err) => {
-      res.send(err);
-    });
 }),
   app.get("/sub/:subreddit", async (req, res) => {
     const posts = await r
