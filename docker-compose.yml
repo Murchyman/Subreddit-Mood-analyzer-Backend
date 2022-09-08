@@ -1,0 +1,9 @@
+services:
+  frontend:
+    image: mitchellrben/frontend
+    ports:
+      - "3000:3000"
+  backend:
+    image: mitchellrben/uni
+    ports:
+      - "3001:3001"

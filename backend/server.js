@@ -9,10 +9,10 @@ const configuration = new Configuration({
 });
 
 const s3 = new AWS.S3({
-  accessKeyId: "ASIA5DYSEEJ44XE6MYQL",
-  secretAccessKey: "wSFaqeqnCX+MRaUdFte3MvutnDZN8WzNpoUhvkz6",
+  accessKeyId: "ASIA5DYSEEJ4UKS5PKF3",
+  secretAccessKey: "zX+gKU1OGAcIXIufraTonwrOPlPuoAmPsfcW4tVa",
   sessionToken:
-    "IQoJb3JpZ2luX2VjEDcaDmFwLXNvdXRoZWFzdC0yIkcwRQIhAK28jxSx/o+03M7J5k6TW61i6XOXXsSSw+cWXTaU+f3hAiB3CDSs4/o0T5rld5knLFusWgjDeyDNS3Jh8j2PONggRiq4Awig//////////8BEAIaDDkwMTQ0NDI4MDk1MyIM7E4TVHi+mdryhLAIKowDqky271yp/4qyUago/ECn7r6S5W8jQdaUXgmk1GAOkG0qOiK0F2SZveWseiYF5o24dfjRJOGbDrV1a0Qcw2Bo3t0iStIkQ6FyjceHyMfCDL98S3ywl0deCLA6CIVw0aL2pzJfZYHse28i/BpAKK8RCF4zvAne4HeM4THR2DprBO7VHQ4JE7YKtZwsSudYR22CqLLiRBiapdFqQWZze4M+6E2ckj7Esms0reAppsUi5U5xl2s4jzzcIU2/qZczICVHyajAVHTn/8Z+TpXtX3R1kip+vJ4XHgEFRb06UROclYwASzfx+MMEvS+wvyrwKxbGscgpLC7g/BikSmyu+QS8jWgcVGrmJThneoCa7xT0Td0ioHVhUW4lIqIYlzx7/xpiiZQVDLeDu40LXeWhnUDaNNKlWLPe+zMO7AGNUBHEgOG23qR89AqYmBX0sDggV6wYU869aGobXm2C34Yd+lVdfUWrc0ldxEBPoA8dfERvk2FgekbA1jx+ZQGwcB3LKP29pQ1yv+2zpJXQNuKZMN7B4pcGOqYB8tGuqrvFw2DRP8SdoJ9LH+Hzl/wfwEhKO/eOY1rNZACFFsGuLALQZiDhQ0mIkgzLUKxWTNLyDeSIs84c1xxmAsQ6Kp/VqnTkGK9vxwVwgjUaHxNIXBExzTT9J4IeQ2zRYAgZb76OxdJj6MXbD9jD+zoOq9pnEHx1UklU62ZGeEO3t3mpkSlNBPlGe9A7MBdqLlb8anLUEMeDBtmL9h17Ye2qWvRuDQ==",
+    "IQoJb3JpZ2luX2VjEJL//////////wEaDmFwLXNvdXRoZWFzdC0yIkgwRgIhALUov9CzZy8H+EXZr0jhC+txTS7iqb9J/s42jyLEiQxnAiEAp0b4r5dmb06K9BBdbk23Zhqhs6xXZTfBhCjUZuyklV8qrwMIKxACGgw5MDE0NDQyODA5NTMiDIOPzsorsF4KWCezHiqMA9i6WQxcqDjuwE+0ht9g7j7qFfwNoZgTO41PsForegAq21zx+q+wq+fiLic9GfY4kNEnJ9gsDzg82wc9osbPmue+62X7VVSYRfGGYfI1OaWPhdtHUg6psAccK2S1A6Nykm6wbm0rXwALC3ANL6XbstxK0JrH1NFdHpzfoam5TAs3qniFn7X/bzkALyMFbpA39SQDcqA3RkNdQ9xYu4CD7Wqjir2XqI5dT6OTVCkNzzdJD3SF1xnRSmQ3PG64Vmuh6EErAuO5O5Cks2QjSPP13y5Cw6D6vKFkLYJN5Y9nnwAWUK6SYwR7jz15ZJCuELBoUmDyRXT6z6hU1XziGn2puivqlYSzZCrrPbZsDsP9NqaK9gBijz+iWu0Xks/kQ+4rqWtgRoUz+3ji8My3s/bz0Zh+UDBi0/d76KD5pPTO3NRADg4+pZM1tIV+gEV5vnzxxsYaElwC93ZDfumZyrSPGRaiLnLif71oItTUa7ZviD/irHn4tLRx8qiX3zHPM1ToEOKDk5uxCLd70I7EDDDp+OaYBjqlAe+mm64OwCpDauAOShMdJWzqIXMH/7IpQsKRf9mdkkspGcmdFwdYi7A2lOGjgJkBdCdQpgv6HeD0VwNn/VzCry56SDzy/uXU831FOS1Kqp21r7LJgyEawxxJjSDlfu9ZK1FiOcqqPaeB8q3FUkyljogOJRYYD6pU1FxwNMZ8LAa7HDVsC1SJ3q18v6n804TQKIaYbLlpaD1WCJ/xCPRRJ1+zWAG2ig==",
 });
 
 const openai = new OpenAIApi(configuration);
@@ -32,12 +32,14 @@ app.get("/counter", async (req, res) => {
   const keyName = "index.json";
   const objectType = "application/json"; // type of file
 
-let data = await s3.getObject({
-  Bucket: bucketName,
-  Key: keyName,
-}).promise();
+  let data = await s3
+    .getObject({
+      Bucket: bucketName,
+      Key: keyName,
+    })
+    .promise();
 
-console.log();
+  console.log();
 
   const file = {
     counter: JSON.parse(data.Body.toString()).counter + 1,
@@ -54,9 +56,9 @@ console.log();
     })
     .promise();
 
-    res.json({
-      counter: JSON.parse(data.Body.toString()).counter + 1,
-    })
+  res.json({
+    counter: JSON.parse(data.Body.toString()).counter + 1,
+  });
 }),
   app.get("/sub/:subreddit", async (req, res) => {
     const posts = await r
