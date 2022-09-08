@@ -9,10 +9,10 @@ const configuration = new Configuration({
 });
 
 const s3 = new AWS.S3({
-  accessKeyId: "ASIA5DYSEEJ4UKS5PKF3",
-  secretAccessKey: "zX+gKU1OGAcIXIufraTonwrOPlPuoAmPsfcW4tVa",
+  accessKeyId: "ASIA5DYSEEJ4QXFYKGHH",
+  secretAccessKey: "D9TOzFl1Rr0aaq/o0FXFc3UcQYjb5CoAayjuQ519",
   sessionToken:
-    "IQoJb3JpZ2luX2VjEJL//////////wEaDmFwLXNvdXRoZWFzdC0yIkgwRgIhALUov9CzZy8H+EXZr0jhC+txTS7iqb9J/s42jyLEiQxnAiEAp0b4r5dmb06K9BBdbk23Zhqhs6xXZTfBhCjUZuyklV8qrwMIKxACGgw5MDE0NDQyODA5NTMiDIOPzsorsF4KWCezHiqMA9i6WQxcqDjuwE+0ht9g7j7qFfwNoZgTO41PsForegAq21zx+q+wq+fiLic9GfY4kNEnJ9gsDzg82wc9osbPmue+62X7VVSYRfGGYfI1OaWPhdtHUg6psAccK2S1A6Nykm6wbm0rXwALC3ANL6XbstxK0JrH1NFdHpzfoam5TAs3qniFn7X/bzkALyMFbpA39SQDcqA3RkNdQ9xYu4CD7Wqjir2XqI5dT6OTVCkNzzdJD3SF1xnRSmQ3PG64Vmuh6EErAuO5O5Cks2QjSPP13y5Cw6D6vKFkLYJN5Y9nnwAWUK6SYwR7jz15ZJCuELBoUmDyRXT6z6hU1XziGn2puivqlYSzZCrrPbZsDsP9NqaK9gBijz+iWu0Xks/kQ+4rqWtgRoUz+3ji8My3s/bz0Zh+UDBi0/d76KD5pPTO3NRADg4+pZM1tIV+gEV5vnzxxsYaElwC93ZDfumZyrSPGRaiLnLif71oItTUa7ZviD/irHn4tLRx8qiX3zHPM1ToEOKDk5uxCLd70I7EDDDp+OaYBjqlAe+mm64OwCpDauAOShMdJWzqIXMH/7IpQsKRf9mdkkspGcmdFwdYi7A2lOGjgJkBdCdQpgv6HeD0VwNn/VzCry56SDzy/uXU831FOS1Kqp21r7LJgyEawxxJjSDlfu9ZK1FiOcqqPaeB8q3FUkyljogOJRYYD6pU1FxwNMZ8LAa7HDVsC1SJ3q18v6n804TQKIaYbLlpaD1WCJ/xCPRRJ1+zWAG2ig==",
+    "IQoJb3JpZ2luX2VjEJj//////////wEaDmFwLXNvdXRoZWFzdC0yIkcwRQIhAODM7OsAAqF+fAsom/sLbWjZtmtYWLxQPYs175jUU/KHAiAq3nm5/agG8fIkNjCleXm2vL3gGr1OQsbjNUAjbLfVtiqvAwgxEAIaDDkwMTQ0NDI4MDk1MyIMTXAWCInXClgEU2ZcKowDKAsQLPA7U+duDJ6bRuvDiW1I/n1hhpabU3mef7pExN7k10+SWV7LAX6hhZigEOtPeqAt9Wwsrd3HDlgN8cs1SbEovWy9I6Ex6BvKgB08CfZQ5tI1ZWt8Wg+4axSIY+SAAoAFOf93meVL6EY5woC6SHc0UZlDgHr7T4v3kCBDVYamTLNdoQXsys1NTc+E7uuMuiAL2T5cvDCdoDZKVh2K7gFpWuJfa1UeKycFgq4IxhxU2Yl+tzkt8KfzgJ4QSlQxYSiGqw6mMoijL4OGK5LP7a+dIvIFw4J/w5XgG3QcBSBDoE9e0taJWQdggPdwUqOqKYDIi03JLHKJsMnns1QOeGYAqiLuHu+XywmQbOzrfXeCh8h43l7mKOpXqh9Q+wrVwgAGViWBtw+TJTAP33P56M4PVGmJxY14ml/+8hTqICSo1XAUwLGXDajT36sbLLBt6iyobbMcjtl/Hobvhe6XqKJVw3DyKvlbHodsEIAy1z79FiCGtLL23ISITWel5/GR6AWAsY9+5TADRyWyMLeZ6JgGOqYB7/St4Om3Qm5zrBd3B5c5XwdNq8ff0th7ZZ1kP9s016vDpQXe/YPB3FLmYJhYPaQaBvV7B3dKfV2cIFcV6ELZs+J7YGsgppvaqzzL8R0x+nu+9wGEu8DpX4UkrJx/YSC13R7NF3ykX5pgThwPV7qMLq6IfoW8yq32iC6fa0pdTfBwDCJePAy7Y9jmEvFLwa4Dinnfs/WH1cXNMxpXBeza4ZkVQb7c6Q==",
 });
 
 const openai = new OpenAIApi(configuration);
@@ -65,6 +65,14 @@ app.get("/counter", async (req, res) => {
       .getSubreddit(req.params.subreddit)
       .getHot()
       .map((post) => post.title);
+
+    //if subreddit is not found
+    if (posts.length === 0) {
+      res.json({
+        message: "Subreddit not found",
+      });
+      return;
+    }
 
     const prompt = `describe in 3 words the mood of a subreddit based on these posts made by users: ${posts.slice(
       0,
